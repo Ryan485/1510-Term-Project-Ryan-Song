@@ -102,7 +102,7 @@ def user_direction(color):
     while True:
         directions = input(f"{color['BOLD']}\nChoose the direction "
                            "\n 1. West 2. East 3. North 4. South"
-                           "\nEnter a number for the direction: ")
+                           "\nEnter a number for directions: ")
         if directions not in ["1", "2", "3", "4"]:
             print("\nPlease choose a valid number between 1 and 4!\n")
         else:
@@ -127,9 +127,9 @@ def set_board_coordinates(rows, columns):
     return board
 
 
-def valid_move(location, rows, columns, direction):
-    check_x_coordinate = location["X-coordinate"]
-    check_y_coordinate = location["Y-coordinate"]
+def valid_move(attributes, rows, columns, direction):
+    check_x_coordinate = attributes["X-coordinate"]
+    check_y_coordinate = attributes["Y-coordinate"]
 
     if direction == "1":
         check_y_coordinate -= 1
@@ -237,16 +237,40 @@ def hospital(attributes, user_choice, color):
         user_decision = input(f"{color['BLUE']}Do you want to heal? Y/N: ")
         user_decision.lower()
         if user_decision == "y" or user_decision == "yes":
-            if user_choice == "1":
+            if user_choice == "1" and attributes["Level"] == 1:
                 attributes["HP"] = 100
                 print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
                 break
-            elif user_choice == "2":
+            elif user_choice == "1" and attributes["Level"] == 2:
                 attributes["HP"] = 150
                 print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
                 break
-            elif user_choice == "3":
+            elif user_choice == "1" and attributes["Level"] == 3:
                 attributes["HP"] = 200
+                print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
+                break
+            elif user_choice == "2" and attributes["Level"] == 1:
+                attributes["HP"] = 150
+                print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
+                break
+            elif user_choice == "2" and attributes["Level"] == 2:
+                attributes["HP"] = 200
+                print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
+                break
+            elif user_choice == "2" and attributes["Level"] == 3:
+                attributes["HP"] = 400
+                print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
+                break
+            elif user_choice == "3" and attributes["Level"] == 1:
+                attributes["HP"] = 200
+                print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
+                break
+            elif user_choice == "3" and attributes["Level"] == 2:
+                attributes["HP"] = 300
+                print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
+                break
+            elif user_choice == "3" and attributes["Level"] == 3:
+                attributes["HP"] = 500
                 print(f"Your HP is fully healed! Your HP is back to {attributes['HP']}!")
                 break
         elif user_decision == "n" or user_decision == "no":
@@ -346,12 +370,49 @@ def boss_attributes():
     return {"Damage": 50, "HP": 1000}
 
 
-def boss(attributes, user_choice, color, boss_info):
-    print(f"{color['GREEN']}Now that you have reached our MAX Level, "
-          f"you need to defeat our final boss to finish this game\n"
-          f"Our boss attribute is: Damage: 50 | HP: 1000\n"
-          f"The final boss will look like this: 👾\n"
-          f"Good luck!\n{color['RESET']}")
+def boss_description(color):
+    words = (f"{color['GREEN']}Now that you have reached our MAX Level, "
+             f"you need to defeat our final boss to finish this game\n"
+             f"The stats for final boss are: Damage: 50 | HP: 1000\n"
+             f"The final boss will look like this: 👾\n"
+             f"Good luck!\n{color['RESET']}")
+
+    for word in words:
+        print(word, end='')
+        time.sleep(0.5)
+
+
+# def boss(attributes, user_choice, color, boss_info):
+#     for row in range(rows):
+#         for column in range(columns):
+#             if (row, column) == monsters:
+#                 coordinates[(row, column)] = "👹"
+#                 coordinates[(3, 5)] = "🏥"
+#                 monster_list.append(monsters)
+#             new_board = coordinates[(row, column)]
+#             if new_board == "💂‍♂️":
+#                 print(f"{color['RED']}{new_board}{color['RESET']}", end='  ')
+#             elif new_board == "👹":
+#                 print(f"{color['MAGENTA']}{new_board}{color['RESET']}", end='  ')
+#             elif new_board == "🏥":
+#                 print(f"{color['BLUE']}{new_board}{color['RESET']}", end='  ')
+#             else:
+#                 print(f"{color['GREEN']}{new_board}{color['RESET']}", end='  ')
+#         print()
+
+
+# def game_over(attributes, user_choice):
+#     if attributes["HP"] >= 0:
+#         print("Game Over")
+#         replay = input("Do you want to play again? Y/N: ")
+#         replay.lower()
+#         if replay == "yes" or replay == "y":
+#             if user_choice == "1":
+#                 attributes{"X-coordinate": 0, "Y-coordinate": 0, "HP": 100, "Damage": 150, "Level": 1, "EXP": 0}
+#             if user_choice == "2":
+#                 return {"X-coordinate": 0, "Y-coordinate": 0, "HP": 150, "Damage": 80, "Level": 1, "EXP": 0}
+#             if user_choice == "3":
+#                 return {"X-coordinate": 0, "Y-coordinate": 0, "HP": 200, "Damage": 50, "Level": 1, "EXP": 0}
 
 
 def game():
@@ -367,9 +428,8 @@ def game():
     assign_character(user_choice, color)
     attributes = character_attributes(user_choice)
     monster_info = monster_attributes()
-    boss_info = boss_attributes()
     # tutorial_description(color)
-    #
+
     # mock_board(coordinates, rows, columns, color)
     # time.sleep(0.5)
     # print("\n")
@@ -378,19 +438,21 @@ def game():
     #     display_board(coordinates, rows, columns, color, True)
     #     direction = user_direction(color)
     #
-    #     if valid_move(location, rows, columns, direction):
-    #         user_movement(location, coordinates, True, direction)
+    #     if valid_move(attributes, rows, columns, direction):
+    #         user_movement(attributes, coordinates, True, direction)
     #
     #     count += 1
     #
     # print(f"{color['YELLOW']}\nCongratulations! You've mastered how to move!{color['RESET']}")
     # tutorial_monster(color)
 
-    while attributes["HP"] >= 0:
+    while attributes["HP"] >= 0 or attributes["Level"] < 3:
         monsters = spawn_monsters(rows, columns)
         battle_field(coordinates, rows, columns, color, True, monsters)
 
         direction = user_direction(color)
+        if attributes["Level"] == 3:
+            break
         if valid_move(attributes, rows, columns, direction):
             user_movement(attributes, coordinates, True, direction)
             if level_2(attributes, user_choice, color):
@@ -399,10 +461,10 @@ def game():
                 hospital(attributes, user_choice, color)
             elif level_3(attributes, user_choice, color):
                 level_3(attributes, user_choice, color)
-                boss(attributes, user_choice, color, boss_info)
-
             else:
                 fights(color, attributes, monster_info, user_choice)
+
+    boss_description(color)
 
 
 def main():
