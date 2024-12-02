@@ -43,5 +43,5 @@ class Test(TestCase):
 
         actual = mock_stdout.getvalue()
 
-        self.assertEqual(expected, actual)
+        self.assertEqual(expected, actual).
 
