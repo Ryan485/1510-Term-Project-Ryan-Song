@@ -575,10 +575,26 @@ def fights(color, attributes, monster_info, user_choice):
 
 
 def boss_attributes():
+    """
+    Set boss attributes.
+
+    :return: boss attributes
+
+    #doctest: +SKIP
+    """
     return {"Damage": 200, "HP": 2000}
 
 
 def boss_description(color):
+    """
+    An explanation of boss appearance and how the user can take advantage of the new healing system.
+
+    :param color: color attributes
+    :precondition color: color attributes are properly set
+    :postcondition: the description is successfully displayed
+
+    #doctest: +SKIP
+    """
     words = (f"{color['GREEN']}Now that you have reached our MAX Level, "
              f"you need to defeat our final boss to finish this game.\n\n"
              f"{color['MAGENTA']}The stats for final boss are: Damage: 200 | HP: 2000\n\n"
@@ -666,6 +682,15 @@ def boss(coordinates, rows, columns, movement, attributes, final_boss, color):
 
 
 def last_message(color):
+    """
+    Tell the user that they have successfully completed the game.
+
+    :param color: color attributes
+    :precondition: color attributes are properly set
+    :postcondition: the description is correctly displayed
+
+    #doctest: +SKIP
+    """
     message = (f"\n{color['YELLOW']}You have successfully completed this game!\n"
                f"You will be remembered as a legend in this dungeon....")
     for word in message:
