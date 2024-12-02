@@ -396,11 +396,17 @@ def monster_attributes():
 
 def hospital(attributes, user_choice, color):
     """
+    Heal the player's character based on their level, and character choice.
 
-    :param attributes:
-    :param user_choice:
-    :param color:
-    :return:
+    :param attributes: character's attributes
+    :param user_choice: character chosen by the user
+    :param color: color attributes
+    :precondition attributes: attributes are properly set
+    :precondtion user_choice: character is correctly chosen by the user
+    :precondition color: color attributes are properly set
+    :postcondition: character is healed according their attributes
+
+    #doctest: +SKIP
     """
     x_coordinate = attributes["X-coordinate"]
     y_coordinate = attributes["Y-coordinate"]
@@ -452,6 +458,19 @@ def hospital(attributes, user_choice, color):
 
 
 def level_2(attributes, user_choice, color):
+    """
+    Tell the user that they have leveled up and show their new attributes.
+
+    :param attributes: character's attributes
+    :param user_choice: character chosen by the user
+    :param color: color attributes
+    :precondition attributes: attributes satisfy requirements to level up
+    :precondition user_choice: character is correctly chosen by the user
+    :precondition color: color attributes are properly set
+    :postcondition: character is leveled up and their attributes are updated according to their character choice
+
+    #doctest: +SKIP
+    """
     if attributes["Level"] == 1 and attributes["EXP"] == 300:
         attributes["Level"] += 1
         print(f"{color['YELLOW']}Congratulations! You are now Level {attributes['Level']}!")
@@ -473,6 +492,19 @@ def level_2(attributes, user_choice, color):
 
 
 def level_3(attributes, user_choice, color):
+    """
+    Tell the user that they have leveled up and show their new attributes.
+
+    :param attributes: character's attributes
+    :param user_choice: character chosen by the user
+    :param color: color attributes
+    :precondition attributes: attributes satisfy requirements to level up
+    :precondition user_choice: character is correctly chosen by the user
+    :precondition color: color attributes are properly set
+    :postcondition: character is leveled up and their attributes are updated according to their character choice
+
+    #doctest: +SKIP
+    """
     if attributes["Level"] == 2 and attributes["EXP"] == 700:
         attributes["Level"] += 1
         print(f"\n{color['YELLOW']}Congratulations! You are now Level {attributes['Level']}!")
@@ -494,13 +526,14 @@ def level_3(attributes, user_choice, color):
 
 
 def fights(color, attributes, monster_info, user_choice):
-    global monster_list
     """
-    Check if the player encounters a monster.
 
-    :param monster_container: tuple, the coordinates of the monster
-    :param attributes: dictionary, contains the player's current attributes including coordinates
+    :param color:
+    :param attributes:
+    :param monster_info:
+    :param user_choice:
     """
+    global monster_list
     x_coordinate = attributes["X-coordinate"]
     y_coordinate = attributes["Y-coordinate"]
     monster_hp = monster_info["HP"]
