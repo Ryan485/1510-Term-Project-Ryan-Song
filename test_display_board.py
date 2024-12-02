@@ -3,7 +3,7 @@ import game
 from unittest.mock import patch
 from io import StringIO
 
-.
+
 class Test(TestCase):
     @patch('sys.stdout', new_callable=StringIO)
     def test_display_board_2X2(self, mock_stdout):
