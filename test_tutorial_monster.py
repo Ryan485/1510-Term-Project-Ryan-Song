@@ -3,7 +3,7 @@ import game
 from unittest.mock import patch
 from io import StringIO
 
-
+.
 class Test(TestCase):
     @patch('time.sleep', return_value=None)
     @patch('sys.stdout', new_callable=StringIO)
