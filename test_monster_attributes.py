@@ -1,7 +1,7 @@
 from unittest import TestCase
 import game
 
-.
+
 class Test(TestCase):
     def test_monster_attributes(self):
         expected = {"HP": 500, "Damage": 20}
