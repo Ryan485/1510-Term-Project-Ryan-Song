@@ -276,11 +276,20 @@ def user_movement(attributes, coordinates, validation, direction):
 
 
 def tutorial_monster(color):
+    """
+    A brief explanation about monsters and the hospital.
+
+    :param color: color attributes for texts
+    :precondition color: color attributes are called successfully
+    :postcondition: description is successfully displayed
+
+    #doctest: +SKIP
+    """
     words = (f"{color['YELLOW']}\nAs you wander through the dungeon, "
-             f"you'll encounter monsters looking like this {color['MAGENTA']}'👹'\n"
+             f"you'll encounter monsters looking like this '👹'\n"
              f"{color['YELLOW']}Your mission is to kill them.\n"
              f"When you are low on HP, you can heal yourself at the hospital.\n"
-             f"Hospital looks like this: {color['BLUE']}🏥\n"
+             f"Hospital looks like this: 🏥\n"
              f"{color['YELLOW']}Now, let's go and slay some monsters!{color['RESET']}\n\n")
 
     for word in words:
@@ -288,18 +297,43 @@ def tutorial_monster(color):
         time.sleep(0.05)
 
 
-def display_board(coordinates, rows, columns, color, movement):
+def display_board(coordinates, rows, columns):
+    """
+    Display the game board to the user.
+
+    :param coordinates: assigned coordinates for the board
+    :param rows: rows of the board
+    :param columns: columns of the board
+    :precondition coordinates: coordinates are correctly assigned
+    :precondition rows: rows are integers
+    :precondition columns: columns are integers
+    :postcondition: the board is displayed correctly based on the coordinates.
+
+    #doctest: +SKIP
+    """
     for row in range(rows):
         for column in range(columns):
             new_board = coordinates[(row, column)]
             if new_board == "💂‍♂️":
-                print(f"{color['RED']}{new_board}{color['RESET']}", end='  ')
+                print(f"{new_board}", end='  ')
             else:
-                print(f"{color['GREEN']}{new_board}{color['RESET']}", end='  ')
+                print(f"{new_board}", end='  ')
         print()
 
 
 def spawn_monsters(rows, columns):
+    """
+    Randomly choose coordinates generated from the for loop and store it in the monster_list dictionary.
+
+    :param rows: rows of the board
+    :param columns: rows of the board
+    :precondition rows: rows are integers
+    :precondition columns: columns are integers
+    :postcondition: a coordinate is randomly selected and is stored in the monster_list
+    :return: a randomly selected coordinate
+
+    #doctest: +SKIP
+    """
     coordinates_list = []
     global monster_list
 
@@ -313,7 +347,23 @@ def spawn_monsters(rows, columns):
     return randomly_generated
 
 
-def battle_field(coordinates, rows, columns, color, movement, monsters):
+def battle_field(coordinates, rows, columns, color, monsters):
+    """
+    Visualize monsters and the hospital based on their coordinates.
+
+    :param coordinates: assigned coordinates for the board
+    :param rows: rows of the board
+    :param columns: columns of the board
+    :param color: color attributes to reset colours
+    :param monsters: a randomly selected coordinate
+    :precondition coordinates: coordinates are correctly assigned
+    :precondition rows: rows are integers
+    :precondition columns: columns are integers
+    :precondition monsters: coordinate is within the range of rows and columns
+    :postcondition: monsters and the hospital are displayed correctly based on the coordinates.
+
+    #doctest: +SKIP
+    """
     global monster_list
     for row in range(rows):
         for column in range(columns):
@@ -323,13 +373,13 @@ def battle_field(coordinates, rows, columns, color, movement, monsters):
                 monster_list.append(monsters)
             new_board = coordinates[(row, column)]
             if new_board == "💂‍♂️":
-                print(f"{color['RED']}{new_board}{color['RESET']}", end='  ')
+                print(f"{new_board}{color['RESET']}", end='  ')
             elif new_board == "👹":
-                print(f"{color['MAGENTA']}{new_board}{color['RESET']}", end='  ')
+                print(f"{new_board}{color['RESET']}", end='  ')
             elif new_board == "🏥":
-                print(f"{color['BLUE']}{new_board}{color['RESET']}", end='  ')
+                print(f"{new_board}{color['RESET']}", end='  ')
             else:
-                print(f"{color['GREEN']}{new_board}{color['RESET']}", end='  ')
+                print(f"{new_board}{color['RESET']}", end='  ')
         print()
 
 
@@ -597,7 +647,7 @@ def game():
     print("\n")
     count = 0
     while count < 10:
-        display_board(coordinates, rows, columns, color, True)
+        display_board(coordinates, rows, columns)
         direction = user_direction(color)
 
         if valid_move(attributes, rows, columns, direction):
@@ -611,7 +661,7 @@ def game():
     while attributes["HP"] >= 0 and attributes["Level"] < 3:
 
         monsters = spawn_monsters(rows, columns)
-        battle_field(coordinates, rows, columns, color, True, monsters)
+        battle_field(coordinates, rows, columns, color, monsters)
 
         direction = user_direction(color)
         if attributes["Level"] == 3:
