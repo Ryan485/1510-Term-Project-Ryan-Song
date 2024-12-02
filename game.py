@@ -1,5 +1,7 @@
 import random
 import time
+from typing import Dict
+
 
 monster_list = []
 
@@ -179,7 +181,7 @@ def user_direction(color):
             return directions
 
 
-def character_attributes(user_choice):
+def character_attributes(user_choice: str) -> Dict[str, int]:
     """
     Set character's attributes.
 
