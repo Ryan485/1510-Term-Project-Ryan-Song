@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch
 import game
 
-
+/
 class Test(TestCase):
     @patch('builtins.input', return_value='1')
     def test_get_user_choice_1(self, mock_input):
