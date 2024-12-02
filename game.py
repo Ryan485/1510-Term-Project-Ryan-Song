@@ -384,10 +384,24 @@ def battle_field(coordinates, rows, columns, color, monsters):
 
 
 def monster_attributes():
+    """
+    Set monster attributes
+
+    :return: monster attributes
+
+    #doctest: +SKIP
+    """
     return {"HP": 500, "Damage": 20}
 
 
 def hospital(attributes, user_choice, color):
+    """
+
+    :param attributes:
+    :param user_choice:
+    :param color:
+    :return:
+    """
     x_coordinate = attributes["X-coordinate"]
     y_coordinate = attributes["Y-coordinate"]
     while (x_coordinate, y_coordinate) == (3, 5):
