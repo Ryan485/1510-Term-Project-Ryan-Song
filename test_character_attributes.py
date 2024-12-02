@@ -1,6 +1,6 @@
 from unittest import TestCase
 import game
-.
+
 
 class Test(TestCase):
     def test_character_attributes_1(self):
