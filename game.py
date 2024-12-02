@@ -525,13 +525,20 @@ def level_3(attributes, user_choice, color):
                   f"Damage | {attributes['Damage']} | HP | {attributes['HP']}{color['RESET']}\n")
 
 
-def fights(color, attributes, monster_info, user_choice):
+def fights(color, attributes, monster_info):
     """
+    Display real-time combats with monsters to the user.
 
-    :param color:
-    :param attributes:
-    :param monster_info:
-    :param user_choice:
+    :param color: color attributes
+    :param attributes: character's attributes
+    :param monster_info: monster attributes
+    :param user_choice: character chosen by the user
+    :precondition color: color attributes are properly set
+    :precondition attributes: attributes satisfy requirements to fight
+    :precondition user_choice: character is correctly chosen by the user
+    :postcondition: display users real-time combat with monsters and show its results
+
+    #doctest: +SKIP
     """
     global monster_list
     x_coordinate = attributes["X-coordinate"]
@@ -747,7 +754,7 @@ def game():
             elif level_3(attributes, user_choice, color):
                 level_3(attributes, user_choice, color)
             else:
-                fights(color, attributes, monster_info, user_choice)
+                fights(color, attributes, monster_info)
 
         if attributes["HP"] <= 0:
             print("\nYOU DIED!!\n")
