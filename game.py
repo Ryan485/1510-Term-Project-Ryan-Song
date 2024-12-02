@@ -739,29 +739,29 @@ def game():
     coordinates = set_board_coordinates(rows, columns)
 
     monsters = spawn_monsters(rows, columns)
-    # description(color)
+    description(color)
     user_choice = get_user_choice(color)
     assign_character(user_choice, color)
     attributes = character_attributes(user_choice)
     monster_info = monster_attributes()
     final_boss = boss_attributes()
-    # tutorial_description(color)
-    #
-    # mock_board(coordinates, rows, columns)
-    # time.sleep(0.5)
-    # print("\n")
-    # count = 0
-    # while count < 10:
-    #     display_board(coordinates, rows, columns)
-    #     direction = user_direction(color)
-    #
-    #     if valid_move(attributes, rows, columns, direction):
-    #         user_movement(attributes, coordinates, True, direction)
-    #
-    #     count += 1
+    tutorial_description(color)
 
-    # print(f"{color['YELLOW']}\nCongratulations! You've mastered how to move!{color['RESET']}")
-    # tutorial_monster(color)
+    mock_board(coordinates, rows, columns)
+    time.sleep(0.5)
+    print("\n")
+    count = 0
+    while count < 10:
+        display_board(coordinates, rows, columns)
+        direction = user_direction(color)
+
+        if valid_move(attributes, rows, columns, direction):
+            user_movement(attributes, coordinates, True, direction)
+
+        count += 1
+
+    print(f"{color['YELLOW']}\nCongratulations! You've mastered how to move!{color['RESET']}")
+    tutorial_monster(color)
 
     while attributes["HP"] >= 0 and attributes["Level"] < 3:
 
