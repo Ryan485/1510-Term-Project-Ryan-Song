@@ -3,7 +3,7 @@ import game
 from unittest.mock import patch
 from io import StringIO
 
-
+.
 class Test(TestCase):
     @patch('builtins.input', return_value='1')
     def test_user_direction_1(self, mock_input):
