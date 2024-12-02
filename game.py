@@ -10,6 +10,7 @@ def colours():
 
     :postcondition: dictionary containing the color codes for different colors
     :return: list of colours
+
     # doctest: +SKIP
     """
     return {
@@ -29,7 +30,7 @@ def description(color):
 
     :precondition: user input has to be a string
     :postcondition: direction is correctly chosen by the user
-    :return: direction chosen from the available directions
+
     # doctest: +SKIP
     """
 
@@ -58,6 +59,7 @@ def get_user_choice(color):
     :precondition: user input has to be a string
     :postcondition: store user choice
     :return: user character choice
+
     # doctest: +SKIP
     """
     while True:
@@ -72,11 +74,11 @@ def assign_character(selected_character, color):
     """
     Show user their selected character.
 
-    :param selected_character: selected character from get_user_choice(color)
+    :param selected_character: selected character from the user
     :param color: color attributes for texts
     :precondition: character is successfully chosen by the user
     :postcondition: successfully display the prompt based on the user choice
-    :return: display the prompt based on the user choice
+
     # doctest: +SKIP
     """
     if selected_character == "1":
@@ -95,7 +97,8 @@ def tutorial_description(color):
     :param color: color attributes for texts
     :precondition: color is successfully called from colours()
     :postcondition: tutorial description is successfully displayed
-    :return: tutorial description
+
+    # doctest: +SKIP
     """
     instructions = (f"{color['YELLOW']}Now you are in dungeon. '💂' indicates your current location.\n"
                     f"For our next step, we are going to learn how to move.\nPlease move your character TEN times.\n"
@@ -117,7 +120,7 @@ def set_board_coordinates(rows, columns):
 
     >>> set_board_coordinates(1, 1)
     {(0, 0): '🌲'}
-    >>> set_board_coordinates(10, 10)
+    >>> set_board_coordinates(2, 2)
     {(0, 0): '🌲', (0, 1): '🌲', (1, 0): '🌲', (1, 1): '🌲'}
     """
     board = {}
@@ -128,24 +131,30 @@ def set_board_coordinates(rows, columns):
     return board
 
 
-def mock_board(coordinates, rows, columns, color):
+def mock_board(coordinates, rows, columns):
     """
-    Display board and the location of the character to the user.
+    Display the board and the character's location to the user.
 
-    :param coordinates:
-    :param rows:
-    :param columns:
-    :param color:
-    :return:
+    Provides a visual representation of the board to help users understand its dynamics.
+
+    :param coordinates: assigned coordinates for the board
+    :param rows: rows of board
+    :param columns: columns of board
+    :precondition coordinates: coordinates are successfully assigned
+    :precondition rows: rows are integers
+    :precondition columns: columns are integers
+    :postcondition: board and the user character are successfully displayed
+
+    # doctest: +SKIP
     """
     for row in range(rows):
         for column in range(columns):
             coordinates[(0, 0)] = "💂‍♂️"
             current_location = coordinates[(row, column)]
             if current_location == "💂‍♂️":
-                print(f"{color['RED']}{current_location}{color['RESET']}", end='  ')
+                print(f"{current_location}", end='  ')
             else:
-                print(f"{color['GREEN']}{current_location}{color['RESET']}", end='  ')
+                print(f"{current_location}", end='  ')
         print()
 
 
@@ -153,6 +162,7 @@ def user_direction(color):
     """
     Display available directions to the user and ask them to choose one.
 
+    :param color: color attributes for texts
     :precondition: user input has to be a string
     :postcondition: direction is correctly chosen by the user
     :return: direction chosen from the available directions
@@ -169,6 +179,16 @@ def user_direction(color):
 
 
 def character_attributes(user_choice):
+    """
+    Set character's attributes.
+
+    :param user_choice: selected character from the user
+    :precondtion: character is selected from the user
+    :postcondition: character's attributes are successfully assigned'
+    :return: a dictionary containing the character's attributes based on the user choice
+
+    # doctest: +SKIP
+    """
     if user_choice == "1":
         return {"X-coordinate": 0, "Y-coordinate": 0, "HP": 100, "Damage": 150, "Level": 1, "EXP": 0}
     if user_choice == "2":
@@ -178,6 +198,27 @@ def character_attributes(user_choice):
 
 
 def valid_move(attributes, rows, columns, direction):
+    """
+    Check if the character moves to the right direction.
+
+    :param attributes: character attributes
+    :param rows: rows of board
+    :param columns: columns of board
+    :param direction: direction chosen by the user
+    :precondition attributes: character's attributes are successfully assigned
+    :precondition rows: rows are integers
+    :precondition columns: columns are integers
+    :postcondition direction: direction is correctly chosen by the user
+    :return: boolean value based on the user direction
+
+    >>> attributes = {"X-coordinate": 0, "Y-coordinate": 0, "HP": 100, "Damage": 150, "Level": 1, "EXP": 0}
+    >>> valid_move(attributes, 3, 3, "2")
+    True
+    >>> attributes = {"X-coordinate": 0, "Y-coordinate": 0, "HP": 100, "Damage": 150, "Level": 1, "EXP": 0}
+    >>> valid_move(attributes, 3, 3, "1")
+    You can't move in that direction!
+    False
+    """
     check_x_coordinate = attributes["X-coordinate"]
     check_y_coordinate = attributes["Y-coordinate"]
 
@@ -198,6 +239,22 @@ def valid_move(attributes, rows, columns, direction):
 
 
 def user_movement(attributes, coordinates, validation, direction):
+    """
+    Update the user's coordinates based on their direction choice.
+
+    :param attributes: character attributes
+    :param coordinates: assigned coordinates for the board
+    :param validation: boolean value determining whether the user moves
+    :param direction: direction chosen by the user
+    :precondition attributes: character's attributes are successfully assigned
+    :precondition coordinates: coordinates are correctly assigned
+    :precondition validation: boolean value is properly set
+    :precondition direction: direction is correctly chosen by the user
+    :postcondition attributes: character's attributes are correctly updated
+    :postcondition coordinates: coordinates are correctly updated
+
+    #doctest: +SKIP
+    """
     x_coordinate = attributes["X-coordinate"]
     y_coordinate = attributes["Y-coordinate"]
 
@@ -535,7 +592,7 @@ def game():
     final_boss = boss_attributes()
     tutorial_description(color)
 
-    # mock_board(coordinates, rows, columns, color)
+    mock_board(coordinates, rows, columns)
     time.sleep(0.5)
     print("\n")
     count = 0
