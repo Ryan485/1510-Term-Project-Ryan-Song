@@ -101,7 +101,8 @@ def tutorial_description(color):
     # doctest: +SKIP
     """
     instructions = (f"{color['YELLOW']}Now you are in dungeon. '💂' indicates your current location.\n"
-                    f"For our next step, we are going to learn how to move.\nPlease move your character TEN times.\n"
+                    f"For our next step, we are going to learn how to move."
+                    f"\nPlease move your character TEN times.\n{color['RESET']}"
                     f"Choose a direction below to move your character.\n\n")
     for words in instructions:
         print(words, end="")
@@ -594,7 +595,7 @@ def boss_attributes():
 
 def boss_description(color):
     """
-    An explanation of boss appearance and how the user can take advantage of the new healing system.
+    A brief explanation of the boss and how the user can take advantage of the new healing system.
 
     :param color: color attributes
     :precondition color: color attributes are properly set
@@ -617,7 +618,29 @@ def boss_description(color):
         time.sleep(0.05)
 
 
-def boss(coordinates, rows, columns, movement, attributes, final_boss, color):
+def boss(coordinates, rows, columns, attributes, final_boss, color):
+    """
+    Display real-time combats with the final boss to the user and congratulate them if they successfully kill the boss.
+
+    :param coordinates: assigned coordinates for the board
+    :param rows: rows of the board
+    :param columns: columns of the board
+    :param attributes: character attributes
+    :param final_boss: boss attributes
+    :param color: color attributes
+    :precondition coordinates: coordinates are properly set
+    :precondition rows: rows are integers
+    :precondition columns: columns are integers
+    :precondition attributes: attributes satisfy requirements to face the final boss
+    :precondition final_boss: attributes for the boss are properly set
+    :precondition color: color attributes are properly set
+    :postcondition: allow the user to choose to respawn if they die in battle,
+    or congratulate them if they successfully complete the game.
+
+    :return: a boolean value based on the user's choice in the event of dying in battle.
+
+    #doctest: +SKIP
+    """
     x_coordinate = attributes["X-coordinate"]
     y_coordinate = attributes["Y-coordinate"]
     boss_hp = final_boss["HP"]
@@ -650,14 +673,6 @@ def boss(coordinates, rows, columns, movement, attributes, final_boss, color):
             break
 
     while (x_coordinate, y_coordinate) == (3, 3):
-        if attributes["HP"] <= 0:
-            print("You died fighting the boss!")
-            return False
-        elif boss_hp <= 0:
-            print("You finished the game!")
-            final_boss["HP"] = 0
-            return False
-
         decision = input(f"\n{color['RED']}Ready to fight the boss? Y/N: ").lower()
         if decision in ("yes", "y"):
             while boss_hp > 0:
@@ -677,10 +692,21 @@ def boss(coordinates, rows, columns, movement, attributes, final_boss, color):
                     time.sleep(1)
 
                 if attributes["HP"] <= 0:
-                    print("\nYou died fighting the boss!\n\n"
-                          "Game Over. See you next time!")
-                    return False
+                    print("\nYou died fighting the boss!\n\n")
+                    while True:
+                        choice = input("Do you want to respawn? Y/N: ")
+                        choice.lower()
+                        if choice in ("y", "yes"):
+                            attributes["HP"] = 500
+                            print(f"{color['BLUE']}You have been revived! "
+                                  f"Your HP is now {attributes['HP']}.\n"
+                                  f"Consider visiting the hospital to get more HP!{color['RESET']}\n")
+                            break
 
+                        if choice in ("n", "no"):
+                            print("Game Over. See you next time!")
+                            return False
+                    break
         elif decision in ("no", "n"):
             print(f"You've passed the monster!{color['RESET']}")
             return True
@@ -713,29 +739,29 @@ def game():
     coordinates = set_board_coordinates(rows, columns)
 
     monsters = spawn_monsters(rows, columns)
-    description(color)
+    # description(color)
     user_choice = get_user_choice(color)
     assign_character(user_choice, color)
     attributes = character_attributes(user_choice)
     monster_info = monster_attributes()
     final_boss = boss_attributes()
-    tutorial_description(color)
+    # tutorial_description(color)
+    #
+    # mock_board(coordinates, rows, columns)
+    # time.sleep(0.5)
+    # print("\n")
+    # count = 0
+    # while count < 10:
+    #     display_board(coordinates, rows, columns)
+    #     direction = user_direction(color)
+    #
+    #     if valid_move(attributes, rows, columns, direction):
+    #         user_movement(attributes, coordinates, True, direction)
+    #
+    #     count += 1
 
-    mock_board(coordinates, rows, columns)
-    time.sleep(0.5)
-    print("\n")
-    count = 0
-    while count < 10:
-        display_board(coordinates, rows, columns)
-        direction = user_direction(color)
-
-        if valid_move(attributes, rows, columns, direction):
-            user_movement(attributes, coordinates, True, direction)
-
-        count += 1
-
-    print(f"{color['YELLOW']}\nCongratulations! You've mastered how to move!{color['RESET']}")
-    tutorial_monster(color)
+    # print(f"{color['YELLOW']}\nCongratulations! You've mastered how to move!{color['RESET']}")
+    # tutorial_monster(color)
 
     while attributes["HP"] >= 0 and attributes["Level"] < 3:
 
@@ -775,7 +801,7 @@ def game():
     boss_description(color)
 
     while attributes["HP"] > 0 and final_boss["HP"] > 0:
-        if not boss(coordinates, rows, columns, True, attributes, final_boss, color):
+        if not boss(coordinates, rows, columns, attributes, final_boss, color):
             break
 
         direction = user_direction(color)
