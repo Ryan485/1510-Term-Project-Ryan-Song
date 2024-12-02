@@ -1,7 +1,7 @@
 from unittest import TestCase
 import game
 
-
+.
 class Test(TestCase):
     def test_valid_move_1(self):
         attributes = {"X-coordinate": 0, "Y-coordinate": 0, "HP": 100, "Damage": 150, "Level": 1, "EXP": 0}
