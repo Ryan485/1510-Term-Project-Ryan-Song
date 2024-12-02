@@ -1,6 +1,6 @@
 from unittest import TestCase
 import game
-.
+
 
 class Test(TestCase):
     def test_user_movement_1(self):
