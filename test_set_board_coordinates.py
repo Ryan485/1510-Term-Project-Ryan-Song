@@ -1,7 +1,7 @@
 from unittest import TestCase
 import game
 
-
+.
 class Test(TestCase):
     def test_set_board_coordinates_3X3(self):
         expected = {(0, 0): '🌲', (0, 1): '🌲', (0, 2): '🌲', (1, 0): '🌲', (1, 1): '🌲',
