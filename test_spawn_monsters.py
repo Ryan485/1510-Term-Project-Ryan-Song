@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import patch
 import game
 
-.
+
 class Test(TestCase):
     @patch('random.choice', return_value=(1, 1))
     def test_spawn_monsters_2X2(self, mock_choice):
