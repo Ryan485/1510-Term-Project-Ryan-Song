@@ -2,7 +2,7 @@ import random
 import time
 from typing import Dict
 
-.
+
 def colours():
     """
     List of colours.
