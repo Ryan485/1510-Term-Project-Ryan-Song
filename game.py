@@ -3,7 +3,7 @@ import time
 from typing import Dict
 
 
-monster_list = []
+
 
 
 def colours():
@@ -324,7 +324,20 @@ def display_board(coordinates, rows, columns):
         print()
 
 
-def spawn_monsters(rows, columns):
+def monster_list():
+    """
+    Store coordinates for monsters
+
+    :return: list of coordinates for monsters
+
+    #doctest: +SKIP
+    """
+    monster_coordinates = []
+
+    return monster_coordinates
+
+
+def spawn_monsters(rows, columns, monster_lists):
     """
     Randomly choose coordinates generated from the for loop and store it in the monster_list dictionary.
 
@@ -338,19 +351,18 @@ def spawn_monsters(rows, columns):
     #doctest: +SKIP
     """
     coordinates_list = []
-    global monster_list
 
     for row in range(rows):
         for column in range(columns):
             coordinates_list.append((row, column))
 
     randomly_generated = random.choice(coordinates_list)
-    monster_list.append(randomly_generated)
+    monster_lists.append(randomly_generated)
 
     return randomly_generated
 
 
-def battle_field(coordinates, rows, columns, color, monsters):
+def battle_field(coordinates, rows, columns, color, monsters, monster_lists):
     """
     Visualize monsters and the hospital based on their coordinates.
 
@@ -367,13 +379,12 @@ def battle_field(coordinates, rows, columns, color, monsters):
 
     #doctest: +SKIP
     """
-    global monster_list
     for row in range(rows):
         for column in range(columns):
             if (row, column) == monsters:
                 coordinates[(row, column)] = "👹"
                 coordinates[(3, 5)] = "🏥"
-                monster_list.append(monsters)
+                monster_lists.append(monsters)
             new_board = coordinates[(row, column)]
             if new_board == "💂‍♂️":
                 print(f"{new_board}{color['RESET']}", end='  ')
@@ -528,7 +539,7 @@ def level_3(attributes, user_choice, color):
                   f"Damage | {attributes['Damage']} | HP | {attributes['HP']}{color['RESET']}\n")
 
 
-def fights(color, attributes, monster_info):
+def fights(color, attributes, monster_info, monster_lists):
     """
     Display real-time combats with monsters to the user.
 
@@ -543,14 +554,13 @@ def fights(color, attributes, monster_info):
 
     #doctest: +SKIP
     """
-    global monster_list
     x_coordinate = attributes["X-coordinate"]
     y_coordinate = attributes["Y-coordinate"]
     monster_hp = monster_info["HP"]
     damage = attributes["Damage"]
     monster_damage = monster_info["Damage"]
 
-    if (x_coordinate, y_coordinate) in monster_list:
+    if (x_coordinate, y_coordinate) in monster_lists:
         print(f"\n{color['RED']}You encountered a monster! Prepare for battle!\n")
         time.sleep(0.5)
 
@@ -690,7 +700,7 @@ def boss(coordinates, rows, columns, attributes, final_boss, color):
 
                 if random.random() < 0.25:
                     attributes["HP"] -= boss_damage
-                    print(f"{color['RED']}You've been attacked by the monster! Your HP is now {attributes['HP']}.")
+                    print(f"{color['RED']}You've been attacked by the boss! Your HP is now {attributes['HP']}.")
                     time.sleep(1)
 
                 if attributes["HP"] <= 0:
@@ -710,7 +720,7 @@ def boss(coordinates, rows, columns, attributes, final_boss, color):
                             return False
                     break
         elif decision in ("no", "n"):
-            print(f"You've passed the monster!{color['RESET']}")
+            print(f"You've passed the boss!{color['RESET']}")
             return True
 
     return True
@@ -727,7 +737,8 @@ def last_message(color):
     #doctest: +SKIP
     """
     message = (f"\n{color['YELLOW']}You have successfully completed this game!\n"
-               f"You will be remembered as a legend in this dungeon....")
+               f"You will be remembered as a legend in this dungeon....\n\n\n"
+               f"THE END.")
     for word in message:
         print(word, end='')
         time.sleep(0.07)
@@ -739,8 +750,8 @@ def game():
     color = colours()
 
     coordinates = set_board_coordinates(rows, columns)
-
-    monsters = spawn_monsters(rows, columns)
+    monster_lists = monster_list()
+    monsters = spawn_monsters(rows, columns, monster_lists)
     description(color)
     user_choice = get_user_choice(color)
     assign_character(user_choice, color)
@@ -767,8 +778,8 @@ def game():
 
     while attributes["HP"] >= 0 and attributes["Level"] < 3:
 
-        monsters = spawn_monsters(rows, columns)
-        battle_field(coordinates, rows, columns, color, monsters)
+        monsters = spawn_monsters(rows, columns, monster_lists)
+        battle_field(coordinates, rows, columns, color, monsters, monster_lists)
 
         direction = user_direction(color)
         if attributes["Level"] == 3:
@@ -782,7 +793,7 @@ def game():
             elif level_3(attributes, user_choice, color):
                 level_3(attributes, user_choice, color)
             else:
-                fights(color, attributes, monster_info)
+                fights(color, attributes, monster_info, monster_lists)
 
         if attributes["HP"] <= 0:
             print("\nYOU DIED!!\n")
